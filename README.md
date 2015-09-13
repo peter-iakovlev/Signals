@@ -23,7 +23,7 @@ To integrate SSignalKit into your Xcode project using CocoaPods, specify it in y
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '6.0'
 
-pod 'SSignalKit', '~> 0.0.1'
+pod 'SSignalKit', '~> 0.0.2'
 ```
 
 Then, run the following command:
