@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA8A67EC27368775005B94C7 /* SQueueLocalObject.h in Headers */ = {isa = PBXBuildFile; fileRef = BA8A67EA27368774005B94C7 /* SQueueLocalObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BA8A67ED27368775005B94C7 /* SQueueLocalObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8A67EB27368774005B94C7 /* SQueueLocalObject.m */; };
 		D0085AE71B28285400EAF753 /* SSignal+Timing.m in Sources */ = {isa = PBXBuildFile; fileRef = D0085AB11B28285400EAF753 /* SSignal+Timing.m */; };
 		D0085AE81B28285400EAF753 /* SThreadPool.m in Sources */ = {isa = PBXBuildFile; fileRef = D0085AB21B28285400EAF753 /* SThreadPool.m */; };
 		D0085AE91B28285400EAF753 /* SQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = D0085AB31B28285400EAF753 /* SQueue.m */; };
@@ -145,6 +147,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA8A67EA27368774005B94C7 /* SQueueLocalObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQueueLocalObject.h; sourceTree = "<group>"; };
+		BA8A67EB27368774005B94C7 /* SQueueLocalObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQueueLocalObject.m; sourceTree = "<group>"; };
 		D0085AB11B28285400EAF753 /* SSignal+Timing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SSignal+Timing.m"; sourceTree = "<group>"; };
 		D0085AB21B28285400EAF753 /* SThreadPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SThreadPool.m; sourceTree = "<group>"; };
 		D0085AB31B28285400EAF753 /* SQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQueue.m; sourceTree = "<group>"; };
@@ -404,6 +408,8 @@
 				D0085ACC1B28285400EAF753 /* SThreadPoolQueue.m */,
 				D0085AC61B28285400EAF753 /* SQueue.h */,
 				D0085AB31B28285400EAF753 /* SQueue.m */,
+				BA8A67EA27368774005B94C7 /* SQueueLocalObject.h */,
+				BA8A67EB27368774005B94C7 /* SQueueLocalObject.m */,
 				D0085AE51B28285400EAF753 /* STimer.h */,
 				D0085AE61B28285400EAF753 /* STimer.m */,
 				D0085AD51B28285400EAF753 /* SSignal.h */,
@@ -510,6 +516,7 @@
 				D0085B151B28285400EAF753 /* SDisposableSet.h in Headers */,
 				D0085B0C1B28285400EAF753 /* SSignal+Mapping.h in Headers */,
 				D0085AFC1B28285400EAF753 /* SQueue.h in Headers */,
+				BA8A67EC27368775005B94C7 /* SQueueLocalObject.h in Headers */,
 				D0085B031B28285400EAF753 /* SThreadPoolQueue.h in Headers */,
 				D0085B091B28285400EAF753 /* SSubscriber.h in Headers */,
 				D0085B041B28285400EAF753 /* SThreadPool.h in Headers */,
@@ -780,6 +787,7 @@
 				D0085B101B28285400EAF753 /* SAtomic.m in Sources */,
 				D0085B121B28285400EAF753 /* SBag.m in Sources */,
 				D0085AEE1B28285400EAF753 /* SSignal.m in Sources */,
+				BA8A67ED27368775005B94C7 /* SQueueLocalObject.m in Sources */,
 				D0085B021B28285400EAF753 /* SThreadPoolQueue.m in Sources */,
 				D0085AFF1B28285400EAF753 /* SSubscriber.m in Sources */,
 				D0085B081B28285400EAF753 /* SSignal+Multicast.m in Sources */,

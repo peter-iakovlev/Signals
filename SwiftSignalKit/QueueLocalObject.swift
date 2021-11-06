@@ -1,7 +1,7 @@
 import Foundation
 
 public final class QueueLocalObject<T: AnyObject> {
-    private let queue: Queue
+    public let queue: Queue
     private var valueRef: Unmanaged<T>?
     
     public init(queue: Queue, generate: @escaping () -> T) {
@@ -29,7 +29,7 @@ public final class QueueLocalObject<T: AnyObject> {
         }
     }
     
-    public func syncWith<R>(_ f: @escaping (T) -> R) -> R? {
+    public func syncWith<R>(_ f: @escaping (T) -> R) -> R {
         var result: R?
         self.queue.sync {
             if let valueRef = self.valueRef {
@@ -37,7 +37,7 @@ public final class QueueLocalObject<T: AnyObject> {
                 result = f(value)
             }
         }
-        return result
+        return result!
     }
     
     public func signalWith<R, E>(_ f: @escaping (T, Subscriber<R, E>) -> Disposable) -> Signal<R, E> {
