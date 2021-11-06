@@ -10,6 +10,6 @@
 - (void)addTask:(SThreadPoolTask *)task;
 
 - (SThreadPoolQueue *)nextQueue;
-- (void)_workOnQueue:(SThreadPoolQueue *)queue block:(void (^)())block;
+- (void)_workOnQueue:(SThreadPoolQueue *)queue block:(void (^)(void))block;
 
 @end

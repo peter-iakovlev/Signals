@@ -54,7 +54,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
         
         SMetaDisposable *currentDisposable = [[SMetaDisposable alloc] init];
         
-        void (^start)() = recursiveBlock(^(dispatch_block_t recurse)
+        void (^start)(void) = recursiveBlock(^(dispatch_block_t recurse)
         {
             NSNumber *currentShouldRestart = [shouldRestart with:^id(NSNumber *current)
             {
@@ -98,7 +98,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
         
         SMetaDisposable *currentDisposable = [[SMetaDisposable alloc] init];
         
-        void (^start)() = recursiveBlock(^(dispatch_block_t recurse)
+        void (^start)(void) = recursiveBlock(^(dispatch_block_t recurse)
         {
             NSNumber *currentShouldRestart = [shouldRestart with:^id(NSNumber *current)
             {

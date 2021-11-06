@@ -12,7 +12,7 @@
 
 @implementation SBlockDisposable
 
-- (instancetype)initWithBlock:(void (^)())block
+- (instancetype)initWithBlock:(void (^)(void))block
 {
     self = [super init];
     if (self != nil)

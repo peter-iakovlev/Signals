@@ -2,6 +2,6 @@
 
 @interface SBlockDisposable : NSObject <SDisposable>
 
-- (instancetype)initWithBlock:(void (^)())block;
+- (instancetype)initWithBlock:(void (^)(void))block;
 
 @end

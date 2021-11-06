@@ -4,7 +4,7 @@
 {
 }
 
-- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed;
+- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)(void))completed;
 
 - (void)_assignDisposable:(id<SDisposable>)disposable;
 - (void)_markTerminatedWithoutDisposal;
@@ -17,6 +17,6 @@
 
 @interface STracingSubscriber : SSubscriber
 
-- (instancetype)initWithName:(NSString *)name next:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed;
+- (instancetype)initWithName:(NSString *)name next:(void (^)(id))next error:(void (^)(id))error completed:(void (^)(void))completed;
 
 @end

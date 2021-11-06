@@ -5,7 +5,7 @@
 
 @implementation SSignal (SideEffects)
 
-- (SSignal *)onStart:(void (^)())f
+- (SSignal *)onStart:(void (^)(void))f
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
@@ -77,7 +77,7 @@
     }];
 }
 
-- (SSignal *)onCompletion:(void (^)())f
+- (SSignal *)onCompletion:(void (^)(void))f
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
@@ -95,7 +95,7 @@
     }];
 }
 
-- (SSignal *)afterCompletion:(void (^)())f {
+- (SSignal *)afterCompletion:(void (^)(void))f {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
         return [self startWithNext:^(id next)
@@ -112,7 +112,7 @@
     }];
 }
 
-- (SSignal *)onDispose:(void (^)())f
+- (SSignal *)onDispose:(void (^)(void))f
 {
     return [[SSignal alloc] initWithGenerator:^(SSubscriber *subscriber)
     {

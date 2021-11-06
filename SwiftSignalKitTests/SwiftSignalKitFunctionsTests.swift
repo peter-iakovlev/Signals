@@ -101,7 +101,7 @@ class SwiftSignalKitFunctionsTests: XCTestCase {
         if true {
             var object: DeallocatingObject? = DeallocatingObject(deallocated: &deallocated)
             let signal = Signal<Int, Void> { [object] subscriber in
-                subscriber.putError()
+                subscriber.putError(Void())
                 subscriber.putNext(1)
                 
                 return ActionDisposable {

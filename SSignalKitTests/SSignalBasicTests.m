@@ -718,7 +718,7 @@
 }
 
 - (void)testRetryErrorMatch {
-    __block counter = 1;
+    __block NSInteger counter = 1;
     SSignal *s = [[[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber) {
         if (counter == 1) {
             counter++;
@@ -740,7 +740,7 @@
 }
 
 - (void)testRetryErrorFailNoMatch {
-    __block counter = 1;
+    __block NSInteger counter = 1;
     SSignal *s = [[[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber) {
         if (counter == 1) {
             counter++;

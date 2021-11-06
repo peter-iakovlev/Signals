@@ -14,7 +14,7 @@
 
 @interface SThreadPoolTask ()
 {
-    void (^_block)(bool (^)());
+    void (^_block)(bool (^)(void));
     SThreadPoolTaskState *_state;
 }
 
@@ -22,7 +22,7 @@
 
 @implementation SThreadPoolTask
 
-- (instancetype)initWithBlock:(void (^)(bool (^)()))block
+- (instancetype)initWithBlock:(void (^)(bool (^)(void)))block
 {
     self = [super init];
     if (self != nil)

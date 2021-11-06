@@ -41,8 +41,8 @@
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
         OSSpinLockLock(&self->_lock);
-        id currentValue = _value;
-        bool hasValue = _hasValue;
+        id currentValue = self->_value;
+        bool hasValue = self->_hasValue;
         NSInteger index = [self->_subscribers addItem:[^(id value)
         {
             [subscriber putNext:value];

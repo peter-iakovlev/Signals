@@ -28,7 +28,7 @@
     SThreadPool *threadPool = _threadPool;
     [threadPool _workOnQueue:self block:^
     {
-        [_tasks addObject:task];
+        [self->_tasks addObject:task];
     }];
 }
 

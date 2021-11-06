@@ -45,7 +45,7 @@
     }
 }
 
-- (SSignal *)multicastedSignalForKey:(NSString *)key producer:(SSignal *(^)())producer
+- (SSignal *)multicastedSignalForKey:(NSString *)key producer:(SSignal *(^)(void))producer
 {
     if (key == nil)
     {
@@ -83,7 +83,7 @@
     return signal;
 }
 
-- (void)startStandaloneSignalIfNotRunningForKey:(NSString *)key producer:(SSignal *(^)())producer
+- (void)startStandaloneSignalIfNotRunningForKey:(NSString *)key producer:(SSignal *(^)(void))producer
 {
     if (key == nil)
         return;
@@ -130,28 +130,28 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        OSSpinLockLock(&_lock);
-        SBag *bag = _pipeListeners[key];
+        OSSpinLockLock(&self->_lock);
+        SBag *bag = self->_pipeListeners[key];
         if (bag == nil)
         {
             bag = [[SBag alloc] init];
-            _pipeListeners[key] = bag;
+            self->_pipeListeners[key] = bag;
         }
         NSInteger index = [bag addItem:[^(id next)
         {
             [subscriber putNext:next];
         } copy]];
-        OSSpinLockUnlock(&_lock);
+        OSSpinLockUnlock(&self->_lock);
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            OSSpinLockLock(&_lock);
-            SBag *bag = _pipeListeners[key];
+            OSSpinLockLock(&self->_lock);
+            SBag *bag = self->_pipeListeners[key];
             [bag removeItem:index];
             if ([bag isEmpty]) {
-                [_pipeListeners removeObjectForKey:key];
+                [self->_pipeListeners removeObjectForKey:key];
             }
-            OSSpinLockUnlock(&_lock);
+            OSSpinLockUnlock(&self->_lock);
         }];
     }];
 }

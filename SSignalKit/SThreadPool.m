@@ -79,15 +79,15 @@
         
         [_managementQueue dispatch:^
         {
-            _threads = [[NSMutableArray alloc] init];
-            _queues = [[NSMutableArray alloc] init];
-            _takenQueues = [[NSMutableArray alloc] init];
+            self->_threads = [[NSMutableArray alloc] init];
+            self->_queues = [[NSMutableArray alloc] init];
+            self->_takenQueues = [[NSMutableArray alloc] init];
             for (NSUInteger i = 0; i < threadCount; i++)
             {
                 NSThread *thread = [[NSThread alloc] initWithTarget:[SThreadPool class] selector:@selector(threadEntryPoint:) object:self];
                 thread.name = [[NSString alloc] initWithFormat:@"SThreadPool-%p-%d", self, (int)i];
                 [thread setThreadPriority:threadPriority];
-                [_threads addObject:thread];
+                [self->_threads addObject:thread];
                 [thread start];
             }
         }];
@@ -112,16 +112,16 @@
     return [[SThreadPoolQueue alloc] initWithThreadPool:self];
 }
 
-- (void)_workOnQueue:(SThreadPoolQueue *)queue block:(void (^)())block
+- (void)_workOnQueue:(SThreadPoolQueue *)queue block:(void (^)(void))block
 {
     [_managementQueue dispatch:^
     {
-        pthread_mutex_lock(&_mutex);
+        pthread_mutex_lock(&self->_mutex);
         block();
-        if (![_queues containsObject:queue] && ![_takenQueues containsObject:queue])
-            [_queues addObject:queue];
-        pthread_cond_broadcast(&_cond);
-        pthread_mutex_unlock(&_mutex);
+        if (![self->_queues containsObject:queue] && ![self->_takenQueues containsObject:queue])
+            [self->_queues addObject:queue];
+        pthread_cond_broadcast(&self->_cond);
+        pthread_mutex_unlock(&self->_mutex);
     }];
 }
 

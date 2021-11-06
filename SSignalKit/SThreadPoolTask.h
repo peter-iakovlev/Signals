@@ -2,7 +2,7 @@
 
 @interface SThreadPoolTask : NSObject
 
-- (instancetype)initWithBlock:(void (^)(bool (^)()))block;
+- (instancetype)initWithBlock:(void (^)(bool (^)(void)))block;
 - (void)execute;
 - (void)cancel;
 

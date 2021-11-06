@@ -49,7 +49,7 @@
     return self;
 }
 
-- (id<SDisposable>)startWithNext:(void (^)(id next))next error:(void (^)(id error))error completed:(void (^)())completed traceName:(NSString *)traceName
+- (id<SDisposable>)startWithNext:(void (^)(id next))next error:(void (^)(id error))error completed:(void (^)(void))completed traceName:(NSString *)traceName
 {
     STracingSubscriber *subscriber = [[STracingSubscriber alloc] initWithName:traceName next:next error:error completed:completed];
     id<SDisposable> disposable = _generator(subscriber);
@@ -57,7 +57,7 @@
     return [[SSubscriberDisposable alloc] initWithSubscriber:subscriber disposable:disposable];
 }
 
-- (id<SDisposable>)startWithNext:(void (^)(id next))next error:(void (^)(id error))error completed:(void (^)())completed
+- (id<SDisposable>)startWithNext:(void (^)(id next))next error:(void (^)(id error))error completed:(void (^)(void))completed
 {
     SSubscriber *subscriber = [[SSubscriber alloc] initWithNext:next error:error completed:completed];
     id<SDisposable> disposable = _generator(subscriber);
@@ -73,7 +73,7 @@
     return [[SSubscriberDisposable alloc] initWithSubscriber:subscriber disposable:disposable];
 }
 
-- (id<SDisposable>)startWithNext:(void (^)(id next))next completed:(void (^)())completed
+- (id<SDisposable>)startWithNext:(void (^)(id next))next completed:(void (^)(void))completed
 {
     SSubscriber *subscriber = [[SSubscriber alloc] initWithNext:next error:nil completed:completed];
     id<SDisposable> disposable = _generator(subscriber);

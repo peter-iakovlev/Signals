@@ -61,7 +61,7 @@
         SThreadPoolQueue *queue = [threadPool nextQueue];
         return [self startWithNext:^(id next)
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)())
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putNext:next];
@@ -69,7 +69,7 @@
             [queue addTask:task];
         } error:^(id error)
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)())
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putError:error];
@@ -77,7 +77,7 @@
             [queue addTask:task];
         } completed:^
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)())
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putCompletion];
@@ -125,7 +125,7 @@
     {
         SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
         
-        SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)())
+        SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
         {
             if (cancelled && cancelled())
                 return;

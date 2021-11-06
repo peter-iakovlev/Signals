@@ -68,10 +68,10 @@
         __weak SSignalQueueState *weakSelf = self;
         id<SDisposable> disposable = [signal startWithNext:^(id next)
         {
-            [_subscriber putNext:next];
+            [self->_subscriber putNext:next];
         } error:^(id error)
         {
-            [_subscriber putError:error];
+            [self->_subscriber putError:error];
         } completed:^
         {
             __strong SSignalQueueState *strongSelf = weakSelf;
@@ -114,10 +114,10 @@
         __weak SSignalQueueState *weakSelf = self;
         id<SDisposable> disposable = [nextSignal startWithNext:^(id next)
         {
-            [_subscriber putNext:next];
+            [self->_subscriber putNext:next];
         } error:^(id error)
         {
-            [_subscriber putError:error];
+            [self->_subscriber putError:error];
         } completed:^
         {
             __strong SSignalQueueState *strongSelf = weakSelf;
@@ -259,7 +259,7 @@
     }];
 }
 
-+ (SSignal *)defer:(SSignal *(^)())generator
++ (SSignal *)defer:(SSignal *(^)(void))generator
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
@@ -314,7 +314,7 @@
             return [SSignal complete];
         }];
         
-        _pipe.sink([proxy takeUntilReplacement:disposePipe.signalProducer()]);
+        self->_pipe.sink([proxy takeUntilReplacement:disposePipe.signalProducer()]);
         
         return [[SBlockDisposable alloc] initWithBlock:^{
             disposePipe.sink([SSignal complete]);

@@ -6,14 +6,14 @@
     @public
     void (^_next)(id);
     void (^_error)(id);
-    void (^_completed)();
+    void (^_completed)(void);
 }
 
 @end
 
 @implementation SSubscriberBlocks
 
-- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed {
+- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)(void))completed {
     self = [super init];
     if (self != nil) {
         _next = [next copy];
@@ -38,7 +38,7 @@
 
 @implementation SSubscriber
 
-- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed
+- (instancetype)initWithNext:(void (^)(id))next error:(void (^)(id))error completed:(void (^)(void))completed
 {
     self = [super init];
     if (self != nil)
@@ -159,7 +159,7 @@
 
 @implementation STracingSubscriber
 
-- (instancetype)initWithName:(NSString *)name next:(void (^)(id))next error:(void (^)(id))error completed:(void (^)())completed
+- (instancetype)initWithName:(NSString *)name next:(void (^)(id))next error:(void (^)(id))error completed:(void (^)(void))completed
 {
     self = [super initWithNext:next error:error completed:completed];
     if (self != nil)

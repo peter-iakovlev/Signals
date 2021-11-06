@@ -53,9 +53,9 @@
     
     dispatch_source_set_event_handler(_timer, ^
     {
-        if (_completion)
-            _completion();
-        if (!_repeat)
+        if (self->_completion)
+            self->_completion();
+        if (!self->_repeat)
             [self invalidate];
     });
     dispatch_resume(_timer);
