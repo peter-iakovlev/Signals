@@ -73,7 +73,7 @@ class SwiftSignalKitFunctionsTests: XCTestCase {
             let disposable = signal.start(next: { [object] next in
                 generated = true
                 let _ = object?.description
-            }, completed: { [object]
+            }, completed: { [object] in
                 completed = true
                 let _ = object?.description
             })
@@ -117,7 +117,7 @@ class SwiftSignalKitFunctionsTests: XCTestCase {
                 error = true
                 let _ = object?.description
             },
-             completed: { [object]
+             completed: { [object] in
                 completed = true
                 let _ = object?.description
             })
