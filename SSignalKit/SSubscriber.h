@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 }
 
-- (instancetype _Nonnull)initWithNext:(void (^ _Nullable)(id _Nullable))next error:(void (^ _Nullable)(id _Nullable))error completed:(void (^ _Nullable)(void))completed;
+- (instancetype)initWithNext:(void (^ _Nullable)(id _Nullable))next error:(void (^ _Nullable)(id _Nullable))error completed:(void (^ _Nullable)(void))completed;
 
 - (void)_assignDisposable:(id<SDisposable> _Nullable)disposable;
 - (void)_markTerminatedWithoutDisposal;
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface STracingSubscriber : SSubscriber
 
-- (instancetype _Nonnull)initWithName:(NSString * _Nonnull)name next:(void (^ _Nullable)(id _Nullable))next error:(void (^ _Nullable)(id _Nullable))error completed:(void (^ _Nullable)(void))completed;
+- (instancetype)initWithName:(NSString *)name next:(void (^ _Nullable)(id _Nullable))next error:(void (^ _Nullable)(id _Nullable))error completed:(void (^ _Nullable)(void))completed;
 
 @end
 

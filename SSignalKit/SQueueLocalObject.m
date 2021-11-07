@@ -12,7 +12,7 @@
     SQueue *_queue;
     id valueRef;
 }
--(id)initWithQueue:(SQueue *)queue generate:(id  _Nonnull (^)(void))next {
+-(id)initWithQueue:(SQueue *)queue generate:(id  (^)(void))next {
     if (self = [super init]) {
         self->_queue = queue;
         [queue dispatch:^{

@@ -7,12 +7,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SThreadPool : NSObject
 
-- (instancetype _Nonnull)initWithThreadCount:(NSUInteger)threadCount threadPriority:(double)threadPriority;
+- (instancetype)initWithThreadCount:(NSUInteger)threadCount threadPriority:(double)threadPriority;
 
-- (void)addTask:(SThreadPoolTask * _Nonnull)task;
+- (void)addTask:(SThreadPoolTask *)task;
 
-- (SThreadPoolQueue * _Nonnull)nextQueue;
-- (void)_workOnQueue:(SThreadPoolQueue * _Nonnull)queue block:(void (^ _Nonnull)(void))block;
+- (SThreadPoolQueue *)nextQueue;
+- (void)_workOnQueue:(SThreadPoolQueue *)queue block:(void (^)(void))block;
 
 @end
 

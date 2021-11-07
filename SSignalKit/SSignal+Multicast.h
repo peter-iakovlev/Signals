@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSignal (Multicast)
 
-- (SSignal * _Nonnull)multicast;
+- (SSignal *)multicast;
 
 @end
 

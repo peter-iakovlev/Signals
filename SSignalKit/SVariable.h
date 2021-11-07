@@ -6,10 +6,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SVariable : NSObject
 
-- (instancetype _Nonnull)init;
+- (instancetype)init;
 
-- (void)set:(SSignal * _Nonnull)signal;
-- (SSignal * _Nonnull)signal;
+- (void)set:(SSignal *)signal;
+- (SSignal *)signal;
 
 @end
 

@@ -4,17 +4,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SQueue : NSObject
 
-+ (SQueue * _Nonnull)mainQueue;
-+ (SQueue * _Nonnull)concurrentDefaultQueue;
-+ (SQueue * _Nonnull)concurrentBackgroundQueue;
++ (SQueue *)mainQueue;
++ (SQueue *)concurrentDefaultQueue;
++ (SQueue *)concurrentBackgroundQueue;
 
-+ (SQueue * _Nonnull)wrapConcurrentNativeQueue:(dispatch_queue_t _Nonnull)nativeQueue;
++ (SQueue *)wrapConcurrentNativeQueue:(dispatch_queue_t)nativeQueue;
 
-- (void)dispatch:(dispatch_block_t _Nonnull)block;
-- (void)dispatchSync:(dispatch_block_t _Nonnull)block;
-- (void)dispatch:(dispatch_block_t _Nonnull)block synchronous:(bool)synchronous;
+- (void)dispatch:(dispatch_block_t)block;
+- (void)dispatchSync:(dispatch_block_t)block;
+- (void)dispatch:(dispatch_block_t)block synchronous:(bool)synchronous;
 
-- (dispatch_queue_t _Nonnull)_dispatch_queue;
+- (dispatch_queue_t)_dispatch_queue;
 
 - (bool)isCurrentQueue;
 

@@ -4,10 +4,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SPipe : NSObject
 
-@property (nonatomic, copy, readonly) SSignal * _Nonnull (^ _Nonnull signalProducer)(void);
-@property (nonatomic, copy, readonly) void (^ _Nonnull sink)(id _Nullable);
+@property (nonatomic, copy, readonly) SSignal * (^ signalProducer)(void);
+@property (nonatomic, copy, readonly) void (^ sink)(id _Nullable);
 
-- (instancetype _Nonnull)initWithReplay:(bool)replay;
+- (instancetype)initWithReplay:(bool)replay;
 
 @end
 

@@ -4,10 +4,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSignal (Single)
 
-+ (SSignal * _Nonnull)single:(id _Nullable)next;
-+ (SSignal * _Nonnull)fail:(id _Nullable)error;
-+ (SSignal * _Nonnull)never;
-+ (SSignal * _Nonnull)complete;
++ (SSignal *)single:(id _Nullable)next;
++ (SSignal *)fail:(id _Nullable)error;
++ (SSignal *)never;
++ (SSignal *)complete;
 
 @end
 

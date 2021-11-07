@@ -6,8 +6,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SDisposableSet : NSObject <SDisposable>
 
-- (void)add:(id<SDisposable> _Nonnull)disposable;
-- (void)remove:(id<SDisposable> _Nonnull)disposable;
+- (void)add:(id<SDisposable>)disposable;
+- (void)remove:(id<SDisposable>)disposable;
 
 @end
 

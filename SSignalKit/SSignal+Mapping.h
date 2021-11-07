@@ -4,9 +4,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSignal (Mapping)
 
-- (SSignal * _Nonnull)map:(id _Nullable (^ _Nonnull)(id _Nullable))f;
-- (SSignal * _Nonnull)filter:(bool (^ _Nonnull)(id _Nullable))f;
-- (SSignal * _Nonnull)ignoreRepeated;
+- (SSignal *)map:(id _Nullable (^)(id _Nullable))f;
+- (SSignal *)filter:(bool (^)(id _Nullable))f;
+- (SSignal *)ignoreRepeated;
 
 @end
 

@@ -4,13 +4,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSignal (SideEffects)
 
-- (SSignal * _Nonnull)onStart:(void (^ _Nonnull)(void))f;
-- (SSignal * _Nonnull)onNext:(void (^ _Nonnull)(id _Nullable next))f;
-- (SSignal * _Nonnull)afterNext:(void (^ _Nonnull)(id _Nullable next))f;
-- (SSignal * _Nonnull)onError:(void (^ _Nonnull)(id _Nullable error))f;
-- (SSignal * _Nonnull)onCompletion:(void (^ _Nonnull)(void))f;
-- (SSignal * _Nonnull)afterCompletion:(void (^ _Nonnull)(void))f;
-- (SSignal * _Nonnull)onDispose:(void (^ _Nonnull)(void))f;
+- (SSignal *)onStart:(void (^)(void))f;
+- (SSignal *)onNext:(void (^)(id _Nullable next))f;
+- (SSignal *)afterNext:(void (^)(id _Nullable next))f;
+- (SSignal *)onError:(void (^)(id _Nullable error))f;
+- (SSignal *)onCompletion:(void (^)(void))f;
+- (SSignal *)afterCompletion:(void (^)(void))f;
+- (SSignal *)onDispose:(void (^)(void))f;
 
 @end
 

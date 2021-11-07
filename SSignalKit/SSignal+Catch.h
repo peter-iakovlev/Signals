@@ -4,9 +4,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SSignal (Catch)
 
-- (SSignal * _Nonnull)catch:(SSignal * _Nonnull (^ _Nonnull )(id _Nullable error))f;
-- (SSignal * _Nonnull)restart;
-- (SSignal * _Nonnull)retryIf:(bool (^ _Nonnull)(id _Nullable error))predicate;
+- (SSignal *)catch:(SSignal * (^ )(id _Nullable error))f;
+- (SSignal *)restart;
+- (SSignal *)retryIf:(bool (^)(id _Nullable error))predicate;
 
 @end
 

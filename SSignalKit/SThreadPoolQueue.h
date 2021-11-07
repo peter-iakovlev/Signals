@@ -7,8 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SThreadPoolQueue : NSObject
 
-- (instancetype _Nonnull)initWithThreadPool:(SThreadPool * _Nonnull)threadPool;
-- (void)addTask:(SThreadPoolTask * _Nonnull)task;
+- (instancetype)initWithThreadPool:(SThreadPool *)threadPool;
+- (void)addTask:(SThreadPoolTask *)task;
 - (SThreadPoolTask * _Nullable)_popFirstTask;
 - (bool)_hasTasks;
 
