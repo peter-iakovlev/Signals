@@ -1,5 +1,7 @@
 #import <SSignalKit/SSignalKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SPipe : NSObject
 
 @property (nonatomic, copy, readonly) SSignal * _Nonnull (^ _Nonnull signalProducer)(void);
@@ -9,3 +11,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

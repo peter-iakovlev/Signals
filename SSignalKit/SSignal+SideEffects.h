@@ -1,5 +1,7 @@
 #import <SSignalKit/SSignal.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SSignal (SideEffects)
 
 - (SSignal * _Nonnull)onStart:(void (^ _Nonnull)(void))f;
@@ -11,3 +13,5 @@
 - (SSignal * _Nonnull)onDispose:(void (^ _Nonnull)(void))f;
 
 @end
+
+NS_ASSUME_NONNULL_END

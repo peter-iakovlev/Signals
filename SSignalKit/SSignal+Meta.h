@@ -1,5 +1,7 @@
 #import <SSignalKit/SSignal.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SQueue;
 
 @interface SSignal (Meta)
@@ -20,3 +22,5 @@
 - (SSignal * _Nonnull)enqueue:(SSignal * _Nonnull)signal;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SThreadPool;
 @class SThreadPoolTask;
 
@@ -11,3 +13,5 @@
 - (bool)_hasTasks;
 
 @end
+
+NS_ASSUME_NONNULL_END

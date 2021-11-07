@@ -219,8 +219,6 @@
 		D07A5CFC1BBDE6E400451791 /* Promise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		D09FD73C1BA9BAB900FF0A4F /* SVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVariable.h; sourceTree = "<group>"; };
 		D09FD73D1BA9BAB900FF0A4F /* SVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVariable.m; sourceTree = "<group>"; };
-		D0B417EF1D7DFA63004562A4 /* SwiftSignalKitMac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftSignalKitMac.h; sourceTree = "<group>"; };
-		D0B417F01D7DFA63004562A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0CD17B11CC17C83007C5650 /* Signal_Materialize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signal_Materialize.swift; sourceTree = "<group>"; };
 		D0FC1A391CA3284F0056AE9A /* Signal_Merge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signal_Merge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -330,7 +328,6 @@
 				D0445DE71A7C2CA500267924 /* SSignalKitTests */,
 				D0085B231B282B9800EAF753 /* SwiftSignalKit */,
 				D0085B301B282B9800EAF753 /* SwiftSignalKitTests */,
-				D0B417EE1D7DFA63004562A4 /* SwiftSignalKitMac */,
 				D0445DD91A7C2CA500267924 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -437,15 +434,6 @@
 				D0445DE91A7C2CA500267924 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D0B417EE1D7DFA63004562A4 /* SwiftSignalKitMac */ = {
-			isa = PBXGroup;
-			children = (
-				D0B417EF1D7DFA63004562A4 /* SwiftSignalKitMac.h */,
-				D0B417F01D7DFA63004562A4 /* Info.plist */,
-			);
-			path = SwiftSignalKitMac;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

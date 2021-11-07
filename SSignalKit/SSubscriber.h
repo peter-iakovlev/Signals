@@ -1,5 +1,7 @@
 #import <SSignalKit/SDisposable.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SSubscriber : NSObject <SDisposable>
 {
 }
@@ -20,3 +22,5 @@
 - (instancetype _Nonnull)initWithName:(NSString * _Nonnull)name next:(void (^ _Nullable)(id _Nullable))next error:(void (^ _Nullable)(id _Nullable))error completed:(void (^ _Nullable)(void))completed;
 
 @end
+
+NS_ASSUME_NONNULL_END

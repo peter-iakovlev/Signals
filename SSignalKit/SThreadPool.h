@@ -3,6 +3,8 @@
 #import <SSignalKit/SThreadPoolTask.h>
 #import <SSignalKit/SThreadPoolQueue.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SThreadPool : NSObject
 
 - (instancetype _Nonnull)initWithThreadCount:(NSUInteger)threadCount threadPriority:(double)threadPriority;
@@ -13,3 +15,5 @@
 - (void)_workOnQueue:(SThreadPoolQueue * _Nonnull)queue block:(void (^ _Nonnull)(void))block;
 
 @end
+
+NS_ASSUME_NONNULL_END

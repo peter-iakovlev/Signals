@@ -1,5 +1,7 @@
 #import <SSignalKit/SSignal.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SSignal (Combine)
 
 + (SSignal * _Nonnull)combineSignals:(NSArray * _Nonnull)signals;
@@ -8,3 +10,5 @@
 + (SSignal * _Nonnull)mergeSignals:(NSArray * _Nonnull)signals;
 
 @end
+
+NS_ASSUME_NONNULL_END

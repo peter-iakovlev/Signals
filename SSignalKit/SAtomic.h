@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SAtomic : NSObject
 
 - (instancetype _Nonnull)initWithValue:(id _Nullable)value;
@@ -10,3 +12,5 @@
 - (id _Nullable)with:(id _Nullable (^ _Nonnull)(id _Nullable))f;
 
 @end
+
+NS_ASSUME_NONNULL_END

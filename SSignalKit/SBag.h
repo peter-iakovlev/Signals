@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SBag : NSObject
 
 - (NSInteger)addItem:(id _Nonnull)item;
@@ -9,3 +11,5 @@
 - (NSArray * _Nonnull)copyItems;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,7 @@
 #import <SSignalKit/SSubscriber.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SSignal : NSObject
 {
 @public
@@ -16,3 +18,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

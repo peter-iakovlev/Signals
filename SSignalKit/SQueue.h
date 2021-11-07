@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SQueue : NSObject
 
 + (SQueue * _Nonnull)mainQueue;
@@ -17,3 +19,5 @@
 - (bool)isCurrentQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END
