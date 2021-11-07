@@ -2,6 +2,6 @@
 
 @interface DeallocatingObject : NSObject
 
-- (instancetype)initWithDeallocated:(bool *)deallocated;
+- (instancetype)initWithDeallocated:(BOOL *)deallocated;
 
 @end

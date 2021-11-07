@@ -24,7 +24,7 @@
 {
     SThreadPoolQueue *queue = nil;
     
-    while (true)
+    while (YES)
     {
         SThreadPoolTask *task = nil;
         
@@ -37,7 +37,7 @@
                 [threadPool->_queues addObject:queue];
         }
         
-        while (true)
+        while (YES)
         {
             while (threadPool->_queues.count == 0)
                 pthread_cond_wait(&threadPool->_cond, &threadPool->_mutex);

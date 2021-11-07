@@ -29,7 +29,7 @@
 {
     @protected
     OSSpinLock _lock;
-    bool _terminated;
+    BOOL _terminated;
     id<SDisposable> _disposable;
     SSubscriberBlocks *_blocks;
 }
@@ -50,10 +50,10 @@
 
 - (void)_assignDisposable:(id<SDisposable>)disposable
 {
-    bool dispose = false;
+    BOOL dispose = NO;
     OSSpinLockLock(&_lock);
     if (_terminated) {
-        dispose = true;
+        dispose = YES;
     } else {
         _disposable = disposable;
     }
@@ -72,7 +72,7 @@
         blocks = _blocks;
         _blocks = nil;
         
-        _terminated = true;
+        _terminated = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -98,7 +98,7 @@
 
 - (void)putError:(id)error
 {
-    bool shouldDispose = false;
+    BOOL shouldDispose = NO;
     SSubscriberBlocks *blocks = nil;
     
     OSSpinLockLock(&_lock);
@@ -107,8 +107,8 @@
         blocks = _blocks;
         _blocks = nil;
         
-        shouldDispose = true;
-        _terminated = true;
+        shouldDispose = YES;
+        _terminated = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -122,7 +122,7 @@
 
 - (void)putCompletion
 {
-    bool shouldDispose = false;
+    BOOL shouldDispose = NO;
     SSubscriberBlocks *blocks = nil;
     
     OSSpinLockLock(&_lock);
@@ -131,8 +131,8 @@
         blocks = _blocks;
         _blocks = nil;
         
-        shouldDispose = true;
-        _terminated = true;
+        shouldDispose = YES;
+        _terminated = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -183,7 +183,7 @@
     if (!_terminated)
     {
         NSLog(@"trace(%@ terminated)", _name);
-        _terminated = true;
+        _terminated = YES;
         _next = nil;
         _error = nil;
         _completed = nil;
@@ -211,18 +211,18 @@
 
 - (void)putError:(id)error
 {
-    bool shouldDispose = false;
+    BOOL shouldDispose = NO;
     void (^ferror)(id) = nil;
     
     OSSpinLockLock(&_lock);
     if (!_terminated)
     {
         ferror = self->_error;
-        shouldDispose = true;
+        shouldDispose = YES;
         self->_next = nil;
         self->_error = nil;
         self->_completed = nil;
-        _terminated = true;
+        _terminated = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -240,18 +240,18 @@
 
 - (void)putCompletion
 {
-    bool shouldDispose = false;
+    BOOL shouldDispose = NO;
     void (^completed)() = nil;
     
     OSSpinLockLock(&_lock);
     if (!_terminated)
     {
         completed = self->_completed;
-        shouldDispose = true;
+        shouldDispose = YES;
         self->_next = nil;
         self->_error = nil;
         self->_completed = nil;
-        _terminated = true;
+        _terminated = YES;
     }
     OSSpinLockUnlock(&_lock);
     

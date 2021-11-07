@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SThreadPoolTask : NSObject
 
-- (instancetype)initWithBlock:(void (^)(bool (^)(void)))block;
+- (instancetype)initWithBlock:(void (^)(BOOL (^)(void)))block;
 - (void)execute;
 - (void)cancel;
 

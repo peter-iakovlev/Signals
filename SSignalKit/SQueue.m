@@ -6,7 +6,7 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
 {
     dispatch_queue_t _queue;
     void *_queueSpecific;
-    bool _specialIsMainQueue;
+    BOOL _specialIsMainQueue;
 }
 
 @end
@@ -20,7 +20,7 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
     dispatch_once(&onceToken, ^
     {
         queue = [[SQueue alloc] initWithNativeQueue:dispatch_get_main_queue() queueSpecific:NULL];
-        queue->_specialIsMainQueue = true;
+        queue->_specialIsMainQueue = YES;
     });
     
     return queue;
@@ -98,7 +98,7 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
         dispatch_sync(_queue, block);
 }
 
-- (void)dispatch:(dispatch_block_t)block synchronous:(bool)synchronous {
+- (void)dispatch:(dispatch_block_t)block synchronous:(BOOL)synchronous {
     if (_queueSpecific != NULL && dispatch_get_specific(SQueueSpecificKey) == _queueSpecific)
         block();
     else if (_specialIsMainQueue && [NSThread isMainThread])
@@ -112,13 +112,13 @@ static const void *SQueueSpecificKey = &SQueueSpecificKey;
     }
 }
 
-- (bool)isCurrentQueue
+- (BOOL)isCurrentQueue
 {
     if (_queueSpecific != NULL && dispatch_get_specific(SQueueSpecificKey) == _queueSpecific)
-        return true;
+        return YES;
     else if (_specialIsMainQueue && [NSThread isMainThread])
-        return true;
-    return false;
+        return YES;
+    return NO;
 }
 
 @end

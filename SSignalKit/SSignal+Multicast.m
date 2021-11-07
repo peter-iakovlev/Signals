@@ -38,13 +38,13 @@ typedef enum {
     _disposable = disposable;
 }
 
-- (id<SDisposable>)addSubscriber:(SSubscriber *)subscriber start:(bool *)start
+- (id<SDisposable>)addSubscriber:(SSubscriber *)subscriber start:(BOOL *)start
 {
     OSSpinLockLock(&_lock);
     NSInteger index = [_subscribers addItem:subscriber];
     switch (_state) {
         case SSignalMulticastStateReady:
-            *start = true;
+            *start = YES;
             _state = SSignalMulticastStateStarted;
             break;
         default:
@@ -130,7 +130,7 @@ typedef enum {
     SSignalMulticastSubscribers *subscribers = [[SSignalMulticastSubscribers alloc] init];
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        bool start = false;
+        BOOL start = NO;
         id<SDisposable> currentDisposable = [subscribers addSubscriber:subscriber start:&start];
         if (start)
         {

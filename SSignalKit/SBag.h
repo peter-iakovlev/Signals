@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)addItem:(id)item;
 - (void)enumerateItems:(void (^)(id))block;
 - (void)removeItem:(NSInteger)key;
-- (bool)isEmpty;
+- (BOOL)isEmpty;
 - (NSArray *)copyItems;
 
 @end

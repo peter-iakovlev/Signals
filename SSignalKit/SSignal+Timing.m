@@ -16,7 +16,7 @@
     {
         SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
         
-        STimer *timer = [[STimer alloc] initWithTimeout:seconds repeat:false completion:^
+        STimer *timer = [[STimer alloc] initWithTimeout:seconds repeat:NO completion:^
         {
             [disposable setDisposable:[self startWithNext:^(id next)
             {
@@ -47,7 +47,7 @@
     {
         SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
 
-        STimer *timer = [[STimer alloc] initWithTimeout:seconds repeat:false completion:^
+        STimer *timer = [[STimer alloc] initWithTimeout:seconds repeat:NO completion:^
         {
             [disposable setDisposable:[signal startWithNext:^(id next)
             {

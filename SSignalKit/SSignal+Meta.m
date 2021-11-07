@@ -11,23 +11,23 @@
 @interface SSignalQueueState : NSObject <SDisposable>
 {
     OSSpinLock _lock;
-    bool _executingSignal;
-    bool _terminated;
+    BOOL _executingSignal;
+    BOOL _terminated;
     
     id<SDisposable> _disposable;
     SMetaDisposable *_currentDisposable;
     SSubscriber *_subscriber;
     
     NSMutableArray *_queuedSignals;
-    bool _queueMode;
-    bool _throttleMode;
+    BOOL _queueMode;
+    BOOL _throttleMode;
 }
 
 @end
 
 @implementation SSignalQueueState
 
-- (instancetype)initWithSubscriber:(SSubscriber *)subscriber queueMode:(bool)queueMode throttleMode:(bool)throttleMode
+- (instancetype)initWithSubscriber:(SSubscriber *)subscriber queueMode:(BOOL)queueMode throttleMode:(BOOL)throttleMode
 {
     self = [super init];
     if (self != nil)
@@ -48,7 +48,7 @@
 
 - (void)enqueueSignal:(SSignal *)signal
 {
-    bool startSignal = false;
+    BOOL startSignal = NO;
     OSSpinLockLock(&_lock);
     if (_queueMode && _executingSignal) {
         if (_throttleMode) {
@@ -58,8 +58,8 @@
     }
     else
     {
-        _executingSignal = true;
-        startSignal = true;
+        _executingSignal = YES;
+        startSignal = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -88,9 +88,9 @@
 {
     SSignal *nextSignal = nil;
     
-    bool terminated = false;
+    BOOL terminated = NO;
     OSSpinLockLock(&_lock);
-    _executingSignal = false;
+    _executingSignal = NO;
     
     if (_queueMode)
     {
@@ -98,7 +98,7 @@
         {
             nextSignal = _queuedSignals[0];
             [_queuedSignals removeObjectAtIndex:0];
-            _executingSignal = true;
+            _executingSignal = YES;
         }
         else
             terminated = _terminated;
@@ -132,10 +132,10 @@
 
 - (void)beginCompletion
 {
-    bool executingSignal = false;
+    BOOL executingSignal = NO;
     OSSpinLockLock(&_lock);
     executingSignal = _executingSignal;
-    _terminated = true;
+    _terminated = YES;
     OSSpinLockUnlock(&_lock);
     
     if (!executingSignal)
@@ -156,7 +156,7 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:false throttleMode:false];
+        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:NO throttleMode:NO];
         
         [state beginWithDisposable:[self startWithNext:^(id next)
         {
@@ -224,7 +224,7 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:true throttleMode:false];
+        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:YES throttleMode:NO];
         
         [state beginWithDisposable:[self startWithNext:^(id next)
         {
@@ -243,7 +243,7 @@
 
 - (SSignal *)throttled {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {
-        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:true throttleMode:true];
+        SSignalQueueState *state = [[SSignalQueueState alloc] initWithSubscriber:subscriber queueMode:YES throttleMode:YES];
         [state beginWithDisposable:[self startWithNext:^(id next)
         {
             [state enqueueSignal:next];

@@ -7,14 +7,14 @@
 @interface SSignal_ThrottleContainer : NSObject
 
 @property (nonatomic, strong, readonly) id value;
-@property (nonatomic, readonly) bool committed;
-@property (nonatomic, readonly) bool last;
+@property (nonatomic, readonly) BOOL committed;
+@property (nonatomic, readonly) BOOL last;
 
 @end
 
 @implementation SSignal_ThrottleContainer
 
-- (instancetype)initWithValue:(id)value committed:(bool)committed last:(bool)last {
+- (instancetype)initWithValue:(id)value committed:(BOOL)committed last:(BOOL)last {
     self = [super init];
     if (self != nil) {
         _value = value;
@@ -61,7 +61,7 @@
         SThreadPoolQueue *queue = [threadPool nextQueue];
         return [self startWithNext:^(id next)
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(BOOL (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putNext:next];
@@ -69,7 +69,7 @@
             [queue addTask:task];
         } error:^(id error)
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(BOOL (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putError:error];
@@ -77,7 +77,7 @@
             [queue addTask:task];
         } completed:^
         {
-            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
+            SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(BOOL (^cancelled)(void))
             {
                 if (!cancelled())
                     [subscriber putCompletion];
@@ -91,11 +91,11 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        __block bool isCancelled = false;
+        __block BOOL isCancelled = NO;
         SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
         [disposable setDisposable:[[SBlockDisposable alloc] initWithBlock:^
         {
-            isCancelled = true;
+            isCancelled = YES;
         }]];
         
         [queue dispatch:^
@@ -125,7 +125,7 @@
     {
         SMetaDisposable *disposable = [[SMetaDisposable alloc] init];
         
-        SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(bool (^cancelled)(void))
+        SThreadPoolTask *task = [[SThreadPoolTask alloc] initWithBlock:^(BOOL (^cancelled)(void))
         {
             if (cancelled && cancelled())
                 return;
@@ -157,12 +157,12 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber) {
         SAtomic *value = [[SAtomic alloc] initWithValue:nil];
-        STimer *timer = [[STimer alloc] initWithTimeout:delay repeat:false completion:^{
+        STimer *timer = [[STimer alloc] initWithTimeout:delay repeat:NO completion:^{
             [value modify:^id(SSignal_ThrottleContainer *container) {
                 if (container != nil) {
                     if (!container.committed) {
                         [subscriber putNext:container.value];
-                        container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:true last:container.last];
+                        container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:YES last:container.last];
                     }
                     
                     if (container.last) {
@@ -176,7 +176,7 @@
         return [[self deliverOn:queue] startWithNext:^(id next) {
             [value modify:^id(SSignal_ThrottleContainer *container) {
                 if (container == nil) {
-                    container = [[SSignal_ThrottleContainer alloc] initWithValue:next committed:false last:false];
+                    container = [[SSignal_ThrottleContainer alloc] initWithValue:next committed:NO last:NO];
                 }
                 return container;
             }];
@@ -187,15 +187,15 @@
             [subscriber putError:error];
         } completed:^{
             [timer invalidate];
-            __block bool start = false;
+            __block BOOL start = NO;
             [value modify:^id(SSignal_ThrottleContainer *container) {
-                bool wasCommitted = false;
+                BOOL wasCommitted = NO;
                 if (container == nil) {
-                    wasCommitted = true;
-                    container = [[SSignal_ThrottleContainer alloc] initWithValue:nil committed:true last:true];
+                    wasCommitted = YES;
+                    container = [[SSignal_ThrottleContainer alloc] initWithValue:nil committed:YES last:YES];
                 } else {
                     wasCommitted = container.committed;
-                    container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:container.committed last:true];
+                    container = [[SSignal_ThrottleContainer alloc] initWithValue:container.value committed:container.committed last:YES];
                 }
                 start = wasCommitted;
                 return container;

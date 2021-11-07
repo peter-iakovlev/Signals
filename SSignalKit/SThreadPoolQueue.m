@@ -43,7 +43,7 @@
     return nil;
 }
 
-- (bool)_hasTasks
+- (BOOL)_hasTasks
 {
     return _tasks.count != 0;
 }

@@ -61,7 +61,7 @@
     }
 }
 
-- (bool)isEmpty
+- (BOOL)isEmpty
 {
     return _items.count == 0;
 }

@@ -5,7 +5,7 @@
 @interface SMetaDisposable ()
 {
     OSSpinLock _lock;
-    bool _disposed;
+    BOOL _disposed;
     id<SDisposable> _disposable;
 }
 
@@ -16,7 +16,7 @@
 - (void)setDisposable:(id<SDisposable>)disposable
 {
     id<SDisposable> previousDisposable = nil;
-    bool dispose = false;
+    BOOL dispose = NO;
     
     OSSpinLockLock(&_lock);
     dispose = _disposed;
@@ -42,7 +42,7 @@
     if (!_disposed)
     {
         disposable = _disposable;
-        _disposed = true;
+        _disposed = YES;
     }
     OSSpinLockUnlock(&_lock);
     

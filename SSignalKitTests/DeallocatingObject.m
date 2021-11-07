@@ -2,14 +2,14 @@
 
 @interface DeallocatingObject ()
 {
-    bool *_deallocated;
+    BOOL *_deallocated;
 }
 
 @end
 
 @implementation DeallocatingObject
 
-- (instancetype)initWithDeallocated:(bool *)deallocated
+- (instancetype)initWithDeallocated:(BOOL *)deallocated
 {
     self = [super init];
     if (self != nil)
@@ -21,7 +21,7 @@
 
 - (void)dealloc
 {
-    *_deallocated = true;
+    *_deallocated = YES;
 }
 
 @end

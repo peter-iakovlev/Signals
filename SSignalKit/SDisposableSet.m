@@ -7,7 +7,7 @@
 @interface SDisposableSet ()
 {
     OSSpinLock _lock;
-    bool _disposed;
+    BOOL _disposed;
     id<SDisposable> _singleDisposable;
     NSArray *_multipleDisposables;
 }
@@ -21,7 +21,7 @@
     if (disposable == nil)
         return;
     
-    bool dispose = false;
+    BOOL dispose = NO;
     
     OSSpinLockLock(&_lock);
     dispose = _disposed;
@@ -73,7 +73,7 @@
     OSSpinLockLock(&_lock);
     if (!_disposed)
     {
-        _disposed = true;
+        _disposed = YES;
         singleDisposable = _singleDisposable;
         multipleDisposables = _multipleDisposables;
         _singleDisposable = nil;

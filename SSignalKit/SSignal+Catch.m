@@ -50,7 +50,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        SAtomic *shouldRestart = [[SAtomic alloc] initWithValue:@true];
+        SAtomic *shouldRestart = [[SAtomic alloc] initWithValue:@YES];
         
         SMetaDisposable *currentDisposable = [[SMetaDisposable alloc] init];
         
@@ -85,16 +85,16 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
             
             [shouldRestart modify:^id(__unused id current)
             {
-                return @false;
+                return @NO;
             }];
         }];
     }];
 }
 
-- (SSignal *)retryIf:(bool (^)(id error))predicate {
+- (SSignal *)retryIf:(BOOL (^)(id error))predicate {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
-        SAtomic *shouldRestart = [[SAtomic alloc] initWithValue:@true];
+        SAtomic *shouldRestart = [[SAtomic alloc] initWithValue:@YES];
         
         SMetaDisposable *currentDisposable = [[SMetaDisposable alloc] init];
         
@@ -120,7 +120,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
                 } completed:^
                 {
                     [shouldRestart modify:^id(__unused id current) {
-                         return @false;
+                         return @NO;
                     }];
                     [subscriber putCompletion];
                 }];
@@ -138,7 +138,7 @@ static dispatch_block_t recursiveBlock(void (^block)(dispatch_block_t recurse))
             
             [shouldRestart modify:^id(__unused id current)
             {
-                return @false;
+                return @NO;
             }];
         }];
     }];

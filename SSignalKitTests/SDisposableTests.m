@@ -29,13 +29,13 @@
 
 - (void)testBlockDisposableDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *disposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         object = nil;
@@ -49,13 +49,13 @@
 
 - (void)testBlockDisposableNotDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *disposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         [disposable description];
@@ -67,13 +67,13 @@
 
 - (void)testMetaDisposableDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *blockDisposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         
@@ -88,22 +88,22 @@
 
 - (void)testMetaDisposableDisposedMultipleTimes
 {
-    bool deallocated1 = false;
-    __block bool disposed1 = false;
-    bool deallocated2 = false;
-    __block bool disposed2 = false;
+    BOOL deallocated1 = NO;
+    __block BOOL disposed1 = NO;
+    BOOL deallocated2 = NO;
+    __block BOOL disposed2 = NO;
     {
         DeallocatingObject *object1 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated1];
         dispatch_block_t block1 = ^{
             [object1 description];
-            disposed1 = true;
+            disposed1 = YES;
         };
         SBlockDisposable *blockDisposable1 = [[SBlockDisposable alloc] initWithBlock:[block1 copy]];
         
         DeallocatingObject *object2 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated2];
         dispatch_block_t block2 = ^{
             [object2 description];
-            disposed2 = true;
+            disposed2 = YES;
         };
         SBlockDisposable *blockDisposable2 = [[SBlockDisposable alloc] initWithBlock:[block2 copy]];
         
@@ -121,13 +121,13 @@
 
 - (void)testMetaDisposableNotDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *blockDisposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         
@@ -141,13 +141,13 @@
 
 - (void)testDisposableSetSingleDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *blockDisposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         
@@ -162,22 +162,22 @@
 
 - (void)testDisposableSetMultipleDisposed
 {
-    bool deallocated1 = false;
-    __block bool disposed1 = false;
-    bool deallocated2 = false;
-    __block bool disposed2 = false;
+    BOOL deallocated1 = NO;
+    __block BOOL disposed1 = NO;
+    BOOL deallocated2 = NO;
+    __block BOOL disposed2 = NO;
     {
         DeallocatingObject *object1 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated1];
         dispatch_block_t block1 = ^{
             [object1 description];
-            disposed1 = true;
+            disposed1 = YES;
         };
         SBlockDisposable *blockDisposable1 = [[SBlockDisposable alloc] initWithBlock:[block1 copy]];
         
         DeallocatingObject *object2 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated2];
         dispatch_block_t block2 = ^{
             [object2 description];
-            disposed2 = true;
+            disposed2 = YES;
         };
         SBlockDisposable *blockDisposable2 = [[SBlockDisposable alloc] initWithBlock:[block2 copy]];
         
@@ -195,13 +195,13 @@
 
 - (void)testDisposableSetSingleNotDisposed
 {
-    bool deallocated = false;
-    __block bool disposed = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
         dispatch_block_t block = ^{
             [object description];
-            disposed = true;
+            disposed = YES;
         };
         SBlockDisposable *blockDisposable = [[SBlockDisposable alloc] initWithBlock:[block copy]];
         
@@ -215,22 +215,22 @@
 
 - (void)testDisposableSetMultipleNotDisposed
 {
-    bool deallocated1 = false;
-    __block bool disposed1 = false;
-    bool deallocated2 = false;
-    __block bool disposed2 = false;
+    BOOL deallocated1 = NO;
+    __block BOOL disposed1 = NO;
+    BOOL deallocated2 = NO;
+    __block BOOL disposed2 = NO;
     {
         DeallocatingObject *object1 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated1];
         dispatch_block_t block1 = ^{
             [object1 description];
-            disposed1 = true;
+            disposed1 = YES;
         };
         SBlockDisposable *blockDisposable1 = [[SBlockDisposable alloc] initWithBlock:[block1 copy]];
         
         DeallocatingObject *object2 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated2];
         dispatch_block_t block2 = ^{
             [object2 description];
-            disposed2 = true;
+            disposed2 = YES;
         };
         SBlockDisposable *blockDisposable2 = [[SBlockDisposable alloc] initWithBlock:[block2 copy]];
         
@@ -247,24 +247,24 @@
 
 - (void)testMetaDisposableAlreadyDisposed
 {
-    bool deallocated1 = false;
-    __block bool disposed1 = false;
-    bool deallocated2 = false;
-    __block bool disposed2 = false;
+    BOOL deallocated1 = NO;
+    __block BOOL disposed1 = NO;
+    BOOL deallocated2 = NO;
+    __block BOOL disposed2 = NO;
     
     @autoreleasepool
     {
         DeallocatingObject *object1 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated1];
         dispatch_block_t block1 = ^{
             [object1 description];
-            disposed1 = true;
+            disposed1 = YES;
         };
         SBlockDisposable *blockDisposable1 = [[SBlockDisposable alloc] initWithBlock:[block1 copy]];
         
         DeallocatingObject *object2 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated2];
         dispatch_block_t block2 = ^{
             [object2 description];
-            disposed2 = true;
+            disposed2 = YES;
         };
         SBlockDisposable *blockDisposable2 = [[SBlockDisposable alloc] initWithBlock:[block2 copy]];
         
@@ -282,24 +282,24 @@
 
 - (void)testDisposableSetAlreadyDisposed
 {
-    bool deallocated1 = false;
-    __block bool disposed1 = false;
-    bool deallocated2 = false;
-    __block bool disposed2 = false;
+    BOOL deallocated1 = NO;
+    __block BOOL disposed1 = NO;
+    BOOL deallocated2 = NO;
+    __block BOOL disposed2 = NO;
     
     @autoreleasepool
     {
         DeallocatingObject *object1 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated1];
         dispatch_block_t block1 = ^{
             [object1 description];
-            disposed1 = true;
+            disposed1 = YES;
         };
         SBlockDisposable *blockDisposable1 = [[SBlockDisposable alloc] initWithBlock:[block1 copy]];
         
         DeallocatingObject *object2 = [[DeallocatingObject alloc] initWithDeallocated:&deallocated2];
         dispatch_block_t block2 = ^{
             [object2 description];
-            disposed2 = true;
+            disposed2 = YES;
         };
         SBlockDisposable *blockDisposable2 = [[SBlockDisposable alloc] initWithBlock:[block2 copy]];
         

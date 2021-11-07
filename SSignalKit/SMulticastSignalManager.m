@@ -88,12 +88,12 @@
     if (key == nil)
         return;
     
-    bool produce = false;
+    BOOL produce = NO;
     OSSpinLockLock(&_lock);
     if (_standaloneSignalDisposables[key] == nil)
     {
         _standaloneSignalDisposables[key] = [[SMetaDisposable alloc] init];
-        produce = true;
+        produce = YES;
     }
     OSSpinLockUnlock(&_lock);
     

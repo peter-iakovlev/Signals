@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) SSignal * (^ signalProducer)(void);
 @property (nonatomic, copy, readonly) void (^ sink)(id _Nullable);
 
-- (instancetype)initWithReplay:(bool)replay;
+- (instancetype)initWithReplay:(BOOL)replay;
 
 @end
 

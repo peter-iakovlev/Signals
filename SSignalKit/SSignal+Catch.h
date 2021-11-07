@@ -6,7 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SSignal *)catch:(SSignal * (^ )(id _Nullable error))f;
 - (SSignal *)restart;
-- (SSignal *)retryIf:(bool (^)(id _Nullable error))predicate;
+- (SSignal *)retryIf:(BOOL (^)(id _Nullable error))predicate;
 
 @end
 
