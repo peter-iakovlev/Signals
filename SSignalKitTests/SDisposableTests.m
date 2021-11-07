@@ -7,7 +7,7 @@
 
 #import <libkern/OSAtomic.h>
 
-@import SSignalKit;
+#import <SSignalKit/SSignalKit.h>
 
 #import "DeallocatingObject.h"
 
