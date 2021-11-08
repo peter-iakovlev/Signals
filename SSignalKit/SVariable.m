@@ -11,7 +11,7 @@
 {
     OSSpinLock _lock;
     id _value;
-    bool _hasValue;
+    BOOL _hasValue;
     SBag *_subscribers;
     SMetaDisposable *_disposable;
 }
@@ -41,8 +41,8 @@
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
         OSSpinLockLock(&self->_lock);
-        id currentValue = _value;
-        bool hasValue = _hasValue;
+        id currentValue = self->_value;
+        BOOL hasValue = self->_hasValue;
         NSInteger index = [self->_subscribers addItem:[^(id value)
         {
             [subscriber putNext:value];
@@ -66,7 +66,7 @@
 - (void)set:(SSignal *)signal
 {
     OSSpinLockLock(&_lock);
-    _hasValue = false;
+    _hasValue = NO;
     OSSpinLockUnlock(&_lock);
     
     __weak SVariable *weakSelf = self;
@@ -78,7 +78,7 @@
             NSArray *subscribers = nil;
             OSSpinLockLock(&strongSelf->_lock);
             strongSelf->_value = next;
-            strongSelf->_hasValue = true;
+            strongSelf->_hasValue = YES;
             subscribers = [strongSelf->_subscribers copyItems];
             OSSpinLockUnlock(&strongSelf->_lock);
             

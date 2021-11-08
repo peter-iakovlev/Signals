@@ -8,13 +8,13 @@
 
 @property (nonatomic, strong, readonly) NSDictionary *latestValues;
 @property (nonatomic, strong, readonly) NSArray *completedStatuses;
-@property (nonatomic) bool error;
+@property (nonatomic) BOOL error;
 
 @end
 
 @implementation SSignalCombineState
 
-- (instancetype)initWithLatestValues:(NSDictionary *)latestValues completedStatuses:(NSArray *)completedStatuses error:(bool)error
+- (instancetype)initWithLatestValues:(NSDictionary *)latestValues completedStatuses:(NSArray *)completedStatuses error:(BOOL)error
 {
     self = [super init];
     if (self != nil)
@@ -45,14 +45,14 @@
         NSMutableArray *completedStatuses = [[NSMutableArray alloc] init];
         for (NSUInteger i = 0; i < signals.count; i++)
         {
-            [completedStatuses addObject:@false];
+            [completedStatuses addObject:@NO];
         }
         NSMutableDictionary *initialLatestValues = [[NSMutableDictionary alloc] init];
         for (NSUInteger i = 0; i < initialStates.count; i++)
         {
             initialLatestValues[@(i)] = initialStates[i];
         }
-        SAtomic *combineState = [[SAtomic alloc] initWithValue:[[SSignalCombineState alloc] initWithLatestValues:initialLatestValues completedStatuses:completedStatuses error:false]];
+        SAtomic *combineState = [[SAtomic alloc] initWithValue:[[SSignalCombineState alloc] initWithLatestValues:initialLatestValues completedStatuses:completedStatuses error:NO]];
         
         SDisposableSet *compositeDisposable = [[SDisposableSet alloc] init];
         
@@ -84,37 +84,37 @@
             }
             error:^(id error)
             {
-                __block bool hadError = false;
+                __block BOOL hadError = NO;
                 [combineState modify:^id(SSignalCombineState *state)
                 {
                     hadError = state.error;
-                    return [[SSignalCombineState alloc] initWithLatestValues:state.latestValues completedStatuses:state.completedStatuses error:true];
+                    return [[SSignalCombineState alloc] initWithLatestValues:state.latestValues completedStatuses:state.completedStatuses error:YES];
                 }];
                 if (!hadError)
                     [subscriber putError:error];
             } completed:^
             {
-                __block bool wasCompleted = false;
-                __block bool isCompleted = false;
+                __block BOOL wasCompleted = NO;
+                __block BOOL isCompleted = NO;
                 [combineState modify:^id(SSignalCombineState *state)
                 {
                     NSMutableArray *completedStatuses = [[NSMutableArray alloc] initWithArray:state.completedStatuses];
-                    bool everyStatusWasCompleted = true;
+                    BOOL everyStatusWasCompleted = YES;
                     for (NSNumber *nStatus in completedStatuses)
                     {
                         if (![nStatus boolValue])
                         {
-                            everyStatusWasCompleted = false;
+                            everyStatusWasCompleted = NO;
                             break;
                         }
                     }
-                    completedStatuses[index] = @true;
-                    bool everyStatusIsCompleted = true;
+                    completedStatuses[index] = @YES;
+                    BOOL everyStatusIsCompleted = YES;
                     for (NSNumber *nStatus in completedStatuses)
                     {
                         if (![nStatus boolValue])
                         {
-                            everyStatusIsCompleted = false;
+                            everyStatusIsCompleted = NO;
                             break;
                         }
                     }

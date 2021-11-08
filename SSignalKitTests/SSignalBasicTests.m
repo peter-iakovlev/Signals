@@ -5,7 +5,7 @@
 #endif
 #import <XCTest/XCTest.h>
 
-@import SSignalKit;
+#import <SSignalKit/SSignalKit.h>
 
 #import "DeallocatingObject.h"
 
@@ -52,9 +52,9 @@
 
 - (void)testSignalGenerated
 {
-    __block bool deallocated = false;
-    __block bool disposed = false;
-    __block bool generated = false;
+    __block BOOL deallocated = NO;
+    __block BOOL disposed = NO;
+    __block BOOL generated = NO;
     
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
@@ -66,12 +66,12 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 [object description];
-                disposed = true;
+                disposed = YES;
             }];
         }];
         id<SDisposable> disposable = [signal startWithNext:^(__unused id next)
         {
-            generated = true;
+            generated = YES;
             [object description];
         } error:nil completed:nil];
         [disposable dispose];
@@ -84,10 +84,10 @@
 
 - (void)testSignalGeneratedCompleted
 {
-    __block bool deallocated = false;
-    __block bool disposed = false;
-    __block bool generated = false;
-    __block bool completed = false;
+    __block BOOL deallocated = NO;
+    __block BOOL disposed = NO;
+    __block BOOL generated = NO;
+    __block BOOL completed = NO;
     
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
@@ -100,17 +100,17 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 [object description];
-                disposed = true;
+                disposed = YES;
             }];
         }];
         id<SDisposable> disposable = [signal startWithNext:^(__unused id next)
         {
             [object description];
-            generated = true;
+            generated = YES;
         } error:nil completed:^
         {
             [object description];
-            completed = true;
+            completed = YES;
         }];
         [disposable dispose];
     }
@@ -123,10 +123,10 @@
 
 - (void)testSignalGeneratedError
 {
-    __block bool deallocated = false;
-    __block bool disposed = false;
-    __block bool generated = false;
-    __block bool error = false;
+    __block BOOL deallocated = NO;
+    __block BOOL disposed = NO;
+    __block BOOL generated = NO;
+    __block BOOL error = NO;
     
     {
         DeallocatingObject *object = [[DeallocatingObject alloc] initWithDeallocated:&deallocated];
@@ -139,15 +139,15 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 [object description];
-                disposed = true;
+                disposed = YES;
             }];
         }];
         id<SDisposable> disposable = [signal startWithNext:^(__unused id next)
         {
-            generated = true;
+            generated = YES;
         } error:^(__unused id value)
         {
-            error = true;
+            error = YES;
         } completed:nil];
         [disposable dispose];
     }
@@ -160,9 +160,9 @@
 
 - (void)testMap
 {
-    bool deallocated = false;
-    __block bool disposed = false;
-    __block bool generated = false;
+    BOOL deallocated = NO;
+    __block BOOL disposed = NO;
+    __block BOOL generated = NO;
     
     {
         @autoreleasepool
@@ -175,7 +175,7 @@
                 return [[SBlockDisposable alloc] initWithBlock:^
                 {
                     [object description];
-                    disposed = true;
+                    disposed = YES;
                 }];
             }] map:^id(id value)
             {
@@ -198,8 +198,8 @@
 
 - (void)testSubscriberDisposal
 {
-    __block bool disposed = false;
-    __block bool generated = false;
+    __block BOOL disposed = NO;
+    __block BOOL generated = NO;
     
     dispatch_queue_t queue = dispatch_queue_create(NULL, 0);
     
@@ -215,13 +215,13 @@
             
             return [[SBlockDisposable alloc] initWithBlock:^
             {
-                disposed = true;
+                disposed = YES;
             }];
         }];
         
         id<SDisposable> disposable = [signal startWithNext:^(id value)
         {
-            generated = true;
+            generated = YES;
         } error:nil completed:nil];
         NSLog(@"dispose");
         [disposable dispose];
@@ -237,31 +237,31 @@
 
 - (void)testThen
 {
-    __block bool generatedFirst = false;
-    __block bool disposedFirst = false;
-    __block bool generatedSecond = false;
-    __block bool disposedSecond = false;
+    __block BOOL generatedFirst = NO;
+    __block BOOL disposedFirst = NO;
+    __block BOOL generatedSecond = NO;
+    __block BOOL disposedSecond = NO;
     __block int result = 0;
     
     SSignal *signal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        generatedFirst = true;
+        generatedFirst = YES;
         [subscriber putNext:@(1)];
         [subscriber putCompletion];
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedFirst = true;
+            disposedFirst = YES;
         }];
     }];
     
     signal = [signal then:[[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        generatedSecond = true;
+        generatedSecond = YES;
         [subscriber putNext:@(2)];
         [subscriber putCompletion];
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedSecond = true;
+            disposedSecond = YES;
         }];
     }]];
     
@@ -280,14 +280,14 @@
 - (void)testSwitchToLatest
 {
     __block int result = 0;
-    __block bool disposedOne = false;
-    __block bool disposedTwo = false;
-    __block bool disposedThree = false;
-    __block bool completedAll = false;
+    __block BOOL disposedOne = NO;
+    __block BOOL disposedTwo = NO;
+    __block BOOL disposedThree = NO;
+    __block BOOL completedAll = NO;
     
-    bool deallocatedOne = false;
-    bool deallocatedTwo = false;
-    bool deallocatedThree = false;
+    BOOL deallocatedOne = NO;
+    BOOL deallocatedTwo = NO;
+    BOOL deallocatedThree = NO;
     
     @autoreleasepool
     {
@@ -303,7 +303,7 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 __unused id a0 = [objectOne description];
-                disposedOne = true;
+                disposedOne = YES;
             }];
         }];
         SSignal *two = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
@@ -314,7 +314,7 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 __unused id a1 = [objectOne description];
-                disposedTwo = true;
+                disposedTwo = YES;
             }];
         }];
         SSignal *three = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
@@ -325,7 +325,7 @@
             return [[SBlockDisposable alloc] initWithBlock:^
             {
                 __unused id a1 = [objectOne description];
-                disposedThree = true;
+                disposedThree = YES;
             }];
         }];
         
@@ -335,7 +335,7 @@
             result += [next intValue];
         } error:nil completed:^
         {
-            completedAll = true;
+            completedAll = YES;
         }];
     }
     
@@ -351,7 +351,7 @@
 
 - (void)testSwitchToLatestError
 {
-    __block bool errorGenerated = false;
+    __block BOOL errorGenerated = NO;
     
     SSignal *one = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
@@ -364,7 +364,7 @@
         
     } error:^(__unused id error)
     {
-        errorGenerated = true;
+        errorGenerated = YES;
     } completed:^
     {
         
@@ -375,7 +375,7 @@
 
 - (void)testSwitchToLatestCompleted
 {
-    __block bool completedAll = false;
+    __block BOOL completedAll = NO;
     
     SSignal *one = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
@@ -390,7 +390,7 @@
     {
     } completed:^
     {
-        completedAll = true;
+        completedAll = YES;
     }];
     
     XCTAssertTrue(completedAll);
@@ -400,9 +400,9 @@
 {
     dispatch_queue_t queue = dispatch_queue_create(NULL, 0);
     
-    __block bool disposedFirst = false;
-    __block bool disposedSecond = false;
-    __block bool disposedThird = false;
+    __block BOOL disposedFirst = NO;
+    __block BOOL disposedSecond = NO;
+    __block BOOL disposedThird = NO;
     __block int result = 0;
     
     SSignal *firstSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
@@ -416,7 +416,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedFirst = true;
+            disposedFirst = YES;
         }];
     }];
     
@@ -431,7 +431,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedSecond = true;
+            disposedSecond = YES;
         }];
     }];
     
@@ -446,7 +446,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedThird = true;
+            disposedThird = YES;
         }];
     }];
     
@@ -468,10 +468,10 @@
 {
     dispatch_queue_t queue = dispatch_queue_create(NULL, 0);
     
-    __block bool disposedFirst = false;
-    __block bool disposedSecond = false;
-    __block bool disposedThird = false;
-    __block bool startedThird = false;
+    __block BOOL disposedFirst = NO;
+    __block BOOL disposedSecond = NO;
+    __block BOOL disposedThird = NO;
+    __block BOOL startedThird = NO;
     __block int result = 0;
     
     SSignal *firstSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
@@ -485,7 +485,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedFirst = true;
+            disposedFirst = YES;
         }];
     }];
     
@@ -500,13 +500,13 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedSecond = true;
+            disposedSecond = YES;
         }];
     }];
     
     SSignal *thirdSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        startedThird = true;
+        startedThird = YES;
         
         dispatch_async(queue, ^
         {
@@ -517,7 +517,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedThird = true;
+            disposedThird = YES;
         }];
     }];
     
@@ -540,19 +540,19 @@
 {
     dispatch_queue_t queue = dispatch_queue_create(NULL, 0);
     
-    __block bool disposedFirst = false;
-    __block bool disposedSecond = false;
-    __block bool disposedThird = false;
-    __block bool startedFirst = false;
-    __block bool startedSecond = false;
-    __block bool startedThird = false;
+    __block BOOL disposedFirst = NO;
+    __block BOOL disposedSecond = NO;
+    __block BOOL disposedThird = NO;
+    __block BOOL startedFirst = NO;
+    __block BOOL startedSecond = NO;
+    __block BOOL startedThird = NO;
     __block int result = 0;
     
     SSignal *firstSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        startedFirst = true;
+        startedFirst = YES;
         
-        __block bool cancelled = false;
+        __block BOOL cancelled = NO;
         dispatch_async(queue, ^
         {
             if (!cancelled)
@@ -565,16 +565,16 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            cancelled = true;
-            disposedFirst = true;
+            cancelled = YES;
+            disposedFirst = YES;
         }];
     }];
     
     SSignal *secondSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        startedSecond = true;
+        startedSecond = YES;
         
-        __block bool cancelled = false;
+        __block BOOL cancelled = NO;
         dispatch_async(queue, ^
         {
             if (!cancelled)
@@ -587,14 +587,14 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            cancelled = true;
-            disposedSecond = true;
+            cancelled = YES;
+            disposedSecond = YES;
         }];
     }];
     
     SSignal *thirdSignal = [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        startedThird = true;
+        startedThird = YES;
         
         dispatch_async(queue, ^
         {
@@ -605,7 +605,7 @@
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            disposedThird = true;
+            disposedThird = YES;
         }];
     }];
     
@@ -703,8 +703,8 @@
 }
 
 - (void)testRetryIfNoError {
-    SSignal *s = [[SSignal single:@1] retryIf:^bool(__unused id error) {
-        return true;
+    SSignal *s = [[SSignal single:@1] retryIf:^BOOL(__unused id error) {
+        return YES;
     }];
     [s startWithNext:^(id next) {
         XCTAssertEqual(next, @1);
@@ -712,22 +712,22 @@
 }
 
 - (void)testRetryErrorNoMatch {
-    SSignal *s = [[SSignal fail:@false] retryIf:^bool(id error) {
-        return false;
+    SSignal *s = [[SSignal fail:@NO] retryIf:^BOOL(id error) {
+        return NO;
     }];
 }
 
 - (void)testRetryErrorMatch {
-    __block counter = 1;
+    __block NSInteger counter = 1;
     SSignal *s = [[[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber) {
         if (counter == 1) {
             counter++;
-            [subscriber putError:@true];
+            [subscriber putError:@YES];
         } else {
             [subscriber putNext:@(counter)];
         }
         return nil;
-    }] retryIf:^bool(id error) {
+    }] retryIf:^BOOL(id error) {
         return [error boolValue];
     }];
     
@@ -740,20 +740,20 @@
 }
 
 - (void)testRetryErrorFailNoMatch {
-    __block counter = 1;
+    __block NSInteger counter = 1;
     SSignal *s = [[[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber) {
         if (counter == 1) {
             counter++;
-            [subscriber putError:@true];
+            [subscriber putError:@YES];
         } else {
-            [subscriber putError:@false];
+            [subscriber putError:@NO];
         }
         return nil;
-    }] retryIf:^bool(id error) {
+    }] retryIf:^BOOL(id error) {
         return [error boolValue];
     }];
     
-    __block bool errorMatches = false;
+    __block BOOL errorMatches = NO;
     [s startWithNext:nil error:^(id error) {
         errorMatches = ![error boolValue];
     } completed:nil];

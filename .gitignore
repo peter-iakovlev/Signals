@@ -22,3 +22,5 @@ DerivedData
 *.dSYM.zip
 *.ipa
 */xcuserdata/*
+.swiftpm
+.build

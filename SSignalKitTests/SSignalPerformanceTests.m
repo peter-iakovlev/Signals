@@ -5,7 +5,7 @@
 #endif
 #import <XCTest/XCTest.h>
 
-@import SSignalKit;
+#import <SSignalKit/SSignalKit.h>
 
 @interface SSignalPerformanceTests : XCTestCase
 

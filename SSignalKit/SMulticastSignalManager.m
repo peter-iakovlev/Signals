@@ -45,7 +45,7 @@
     }
 }
 
-- (SSignal *)multicastedSignalForKey:(NSString *)key producer:(SSignal *(^)())producer
+- (SSignal *)multicastedSignalForKey:(NSString *)key producer:(SSignal *(^)(void))producer
 {
     if (key == nil)
     {
@@ -83,17 +83,17 @@
     return signal;
 }
 
-- (void)startStandaloneSignalIfNotRunningForKey:(NSString *)key producer:(SSignal *(^)())producer
+- (void)startStandaloneSignalIfNotRunningForKey:(NSString *)key producer:(SSignal *(^)(void))producer
 {
     if (key == nil)
         return;
     
-    bool produce = false;
+    BOOL produce = NO;
     OSSpinLockLock(&_lock);
     if (_standaloneSignalDisposables[key] == nil)
     {
         _standaloneSignalDisposables[key] = [[SMetaDisposable alloc] init];
-        produce = true;
+        produce = YES;
     }
     OSSpinLockUnlock(&_lock);
     
@@ -130,28 +130,28 @@
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable>(SSubscriber *subscriber)
     {
-        OSSpinLockLock(&_lock);
-        SBag *bag = _pipeListeners[key];
+        OSSpinLockLock(&self->_lock);
+        SBag *bag = self->_pipeListeners[key];
         if (bag == nil)
         {
             bag = [[SBag alloc] init];
-            _pipeListeners[key] = bag;
+            self->_pipeListeners[key] = bag;
         }
         NSInteger index = [bag addItem:[^(id next)
         {
             [subscriber putNext:next];
         } copy]];
-        OSSpinLockUnlock(&_lock);
+        OSSpinLockUnlock(&self->_lock);
         
         return [[SBlockDisposable alloc] initWithBlock:^
         {
-            OSSpinLockLock(&_lock);
-            SBag *bag = _pipeListeners[key];
+            OSSpinLockLock(&self->_lock);
+            SBag *bag = self->_pipeListeners[key];
             [bag removeItem:index];
             if ([bag isEmpty]) {
-                [_pipeListeners removeObjectForKey:key];
+                [self->_pipeListeners removeObjectForKey:key];
             }
-            OSSpinLockUnlock(&_lock);
+            OSSpinLockUnlock(&self->_lock);
         }];
     }];
 }

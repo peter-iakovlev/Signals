@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class SSignal;
 
 @interface SVariable : NSObject
@@ -10,3 +12,5 @@
 - (SSignal *)signal;
 
 @end
+
+NS_ASSUME_NONNULL_END

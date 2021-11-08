@@ -3,7 +3,7 @@
 @interface SThreadPoolTaskState : NSObject
 {
     @public
-    bool _cancelled;
+    BOOL _cancelled;
 }
 
 @end
@@ -14,7 +14,7 @@
 
 @interface SThreadPoolTask ()
 {
-    void (^_block)(bool (^)());
+    void (^_block)(BOOL (^)(void));
     SThreadPoolTaskState *_state;
 }
 
@@ -22,7 +22,7 @@
 
 @implementation SThreadPoolTask
 
-- (instancetype)initWithBlock:(void (^)(bool (^)()))block
+- (instancetype)initWithBlock:(void (^)(BOOL (^)(void)))block
 {
     self = [super init];
     if (self != nil)
@@ -39,7 +39,7 @@
         return;
     
     SThreadPoolTaskState *state = _state;
-    _block(^bool
+    _block(^BOOL
     {
         return state->_cancelled;
     });
@@ -47,7 +47,7 @@
 
 - (void)cancel
 {
-    _state->_cancelled = true;
+    _state->_cancelled = YES;
 }
 
 @end

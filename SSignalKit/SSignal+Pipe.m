@@ -6,14 +6,14 @@
 
 @interface SPipeReplayState : NSObject
 
-@property (nonatomic, readonly) bool hasReceivedValue;
+@property (nonatomic, readonly) BOOL hasReceivedValue;
 @property (nonatomic, strong, readonly) id recentValue;
 
 @end
 
 @implementation SPipeReplayState
 
-- (instancetype)initWithReceivedValue:(bool)receivedValue recentValue:(id)recentValue
+- (instancetype)initWithReceivedValue:(BOOL)receivedValue recentValue:(id)recentValue
 {
     self = [super init];
     if (self != nil)
@@ -30,16 +30,16 @@
 
 - (instancetype)init
 {
-    return [self initWithReplay:false];
+    return [self initWithReplay:NO];
 }
 
-- (instancetype)initWithReplay:(bool)replay
+- (instancetype)initWithReplay:(BOOL)replay
 {
     self = [super init];
     if (self != nil)
     {
         SAtomic *subscribers = [[SAtomic alloc] initWithValue:[[SBag alloc] init]];
-        SAtomic *replayState = replay ? [[SAtomic alloc] initWithValue:[[SPipeReplayState alloc] initWithReceivedValue:false recentValue:nil]] : nil;
+        SAtomic *replayState = replay ? [[SAtomic alloc] initWithValue:[[SPipeReplayState alloc] initWithReceivedValue:NO recentValue:nil]] : nil;
         
         _signalProducer = [^SSignal *
         {
@@ -92,7 +92,7 @@
             {
                 [replayState modify:^id(__unused SPipeReplayState *state)
                 {
-                    return [[SPipeReplayState alloc] initWithReceivedValue:true recentValue:next];
+                    return [[SPipeReplayState alloc] initWithReceivedValue:YES recentValue:next];
                 }];
             }
         } copy];

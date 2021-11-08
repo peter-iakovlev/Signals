@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SQueue : NSObject
 
 + (SQueue *)mainQueue;
@@ -10,10 +12,12 @@
 
 - (void)dispatch:(dispatch_block_t)block;
 - (void)dispatchSync:(dispatch_block_t)block;
-- (void)dispatch:(dispatch_block_t)block synchronous:(bool)synchronous;
+- (void)dispatch:(dispatch_block_t)block synchronous:(BOOL)synchronous;
 
 - (dispatch_queue_t)_dispatch_queue;
 
-- (bool)isCurrentQueue;
+- (BOOL)isCurrentQueue;
 
 @end
+
+NS_ASSUME_NONNULL_END

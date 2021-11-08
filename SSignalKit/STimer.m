@@ -7,7 +7,7 @@
     dispatch_source_t _timer;
     NSTimeInterval _timeout;
     NSTimeInterval _timeoutDate;
-    bool _repeat;
+    BOOL _repeat;
     dispatch_block_t _completion;
     dispatch_queue_t _nativeQueue;
 }
@@ -16,11 +16,11 @@
 
 @implementation STimer
 
-- (id)initWithTimeout:(NSTimeInterval)timeout repeat:(bool)repeat completion:(dispatch_block_t)completion queue:(SQueue *)queue {
+- (id)initWithTimeout:(NSTimeInterval)timeout repeat:(BOOL)repeat completion:(dispatch_block_t)completion queue:(SQueue *)queue {
     return [self initWithTimeout:timeout repeat:repeat completion:completion nativeQueue:queue._dispatch_queue];
 }
 
-- (id)initWithTimeout:(NSTimeInterval)timeout repeat:(bool)repeat completion:(dispatch_block_t)completion nativeQueue:(dispatch_queue_t)nativeQueue
+- (id)initWithTimeout:(NSTimeInterval)timeout repeat:(BOOL)repeat completion:(dispatch_block_t)completion nativeQueue:(dispatch_queue_t)nativeQueue
 {
     self = [super init];
     if (self != nil)
@@ -53,9 +53,9 @@
     
     dispatch_source_set_event_handler(_timer, ^
     {
-        if (_completion)
-            _completion();
-        if (!_repeat)
+        if (self->_completion)
+            self->_completion();
+        if (!self->_repeat)
             [self invalidate];
     });
     dispatch_resume(_timer);

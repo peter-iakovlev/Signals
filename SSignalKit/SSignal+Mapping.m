@@ -5,7 +5,7 @@
 @interface SSignalIgnoreRepeatedState: NSObject
 
 @property (nonatomic, strong) id value;
-@property (nonatomic) bool hasValue;
+@property (nonatomic) BOOL hasValue;
 
 @end
 
@@ -32,7 +32,7 @@
     }];
 }
 
-- (SSignal *)filter:(bool (^)(id))f
+- (SSignal *)filter:(BOOL (^)(id))f
 {
     return [[SSignal alloc] initWithGenerator:^id<SDisposable> (SSubscriber *subscriber)
     {
@@ -55,16 +55,16 @@
         SAtomic *state = [[SAtomic alloc] initWithValue:[[SSignalIgnoreRepeatedState alloc] init]];
         
         return [self startWithNext:^(id next) {
-            bool shouldPassthrough = [[state with:^id(SSignalIgnoreRepeatedState *state) {
+            BOOL shouldPassthrough = [[state with:^id(SSignalIgnoreRepeatedState *state) {
                 if (!state.hasValue) {
-                    state.hasValue = true;
+                    state.hasValue = YES;
                     state.value = next;
-                    return @true;
+                    return @YES;
                 } else if ((state.value == nil && next == nil) || [(id<NSObject>)state.value isEqual:next]) {
-                    return @false;
+                    return @NO;
                 }
                 state.value = next;
-                return @true;
+                return @YES;
             }] boolValue];
             
             if (shouldPassthrough) {

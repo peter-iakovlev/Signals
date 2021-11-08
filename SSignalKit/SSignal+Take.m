@@ -29,15 +29,15 @@
         SAtomic *counter = [[SAtomic alloc] initWithValue:@(0)];
         return [self startWithNext:^(id next)
         {
-            __block bool passthrough = false;
-            __block bool complete = false;
+            __block BOOL passthrough = NO;
+            __block BOOL complete = NO;
             [counter modify:^id(NSNumber *currentCount)
             {
                 NSUInteger updatedCount = [currentCount unsignedIntegerValue] + 1;
                 if (updatedCount <= count)
-                    passthrough = true;
+                    passthrough = YES;
                 if (updatedCount == count)
-                    complete = true;
+                    complete = YES;
                 return @(updatedCount);
             }];
             

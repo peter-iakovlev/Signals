@@ -28,7 +28,7 @@
     SThreadPool *threadPool = _threadPool;
     [threadPool _workOnQueue:self block:^
     {
-        [_tasks addObject:task];
+        [self->_tasks addObject:task];
     }];
 }
 
@@ -43,7 +43,7 @@
     return nil;
 }
 
-- (bool)_hasTasks
+- (BOOL)_hasTasks
 {
     return _tasks.count != 0;
 }

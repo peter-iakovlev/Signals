@@ -6,7 +6,7 @@
 {
     pthread_mutex_t _lock;
     pthread_mutexattr_t _attr;
-    bool _isRecursive;
+    BOOL _isRecursive;
     id _value;
 }
 
@@ -25,7 +25,7 @@
     return self;
 }
 
-- (instancetype)initWithValue:(id)value recursive:(bool)recursive {
+- (instancetype)initWithValue:(id)value recursive:(BOOL)recursive {
     self = [super init];
     if (self != nil)
     {
